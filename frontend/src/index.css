@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-surface-950 text-slate-100 antialiased;
+    background-image: radial-gradient(circle at 20% -10%, rgba(45, 212, 191, 0.08), transparent 45%),
+      radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.06), transparent 40%);
+    background-attachment: fixed;
+  }
+  ::selection {
+    @apply bg-accent-500/30;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-surface-600/60 bg-surface-850/80 shadow-panel backdrop-blur-sm;
+  }
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950;
+  }
+}

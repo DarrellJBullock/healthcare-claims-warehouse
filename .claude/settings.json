@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Read(*)",
+      "Edit(*)",
+      "Write(*)",
+      "Grep(*)",
+      "Glob(*)",
+
+      "Bash(pwd)",
+      "Bash(ls *)",
+      "Bash(find . *)",
+      "Bash(mkdir *)",
+      "Bash(touch *)",
+      "Bash(cat package.json)",
+
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npm run dev)",
+      "Bash(npm run lint)",
+      "Bash(npm run build)",
+      "Bash(npm run test)",
+
+      "Bash(python -m venv .venv)",
+      "Bash(pip install -r requirements.txt)",
+      "Bash(python manage.py migrate)",
+      "Bash(python manage.py runserver)",
+      "Bash(python manage.py test)",
+      "Bash(python manage.py seed_synthetic_claims)",
+      "Bash(python manage.py build_marts)",
+      "Bash(python manage.py run_quality_checks)",
+
+      "Bash(docker compose up -d)",
+      "Bash(docker compose down)",
+      "Bash(docker compose ps)",
+
+      "Bash(git init)",
+      "Bash(git status)",
+      "Bash(git add .)",
+      "Bash(git commit -m *)",
+      "Bash(git branch -M main)",
+      "Bash(git remote add origin *)",
+      "Bash(git push -u origin main)",
+
+      "Bash(gh repo create healthcare-claims-warehouse --public --source=. --remote=origin --push)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh repo delete *)",
+      "Bash(vercel --prod *)",
+      "Bash(npm publish *)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/*secret*)",
+      "Read(**/*token*)",
+      "Read(**/*key*)",
+
+      "Write(.env)",
+      "Write(.env.*)",
+      "Edit(.env)",
+      "Edit(.env.*)",
+
+      "Bash(rm -rf / *)",
+      "Bash(rm -rf ~ *)",
+      "Bash(rm -rf .git *)",
+      "Bash(sudo *)",
+      "Bash(chmod 777 *)",
+      "Bash(curl * | sh)",
+      "Bash(curl * | bash)",
+      "Bash(wget * | sh)",
+      "Bash(wget * | bash)"
+    ]
+  },
+  "env": {
+    "NEXT_TELEMETRY_DISABLED": "1"
+  }
+}
