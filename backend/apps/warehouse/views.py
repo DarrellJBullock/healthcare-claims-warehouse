@@ -225,6 +225,10 @@ class DataQualityResultsView(APIView):
         role = roles.role_from_request(request)
         permissions = roles.get_permissions(role)
         if not permissions["can_view_data_quality"]:
+            audit_service.log_access_denied(
+                user_role=role, resource_type="data_quality_results",
+                reason="Role not permitted to view data quality results",
+            )
             return Response({"detail": "Not permitted for this role."}, status=403)
 
         latest_results = DataQualityResult.objects.all()[:100]
