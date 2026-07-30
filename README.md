@@ -217,6 +217,10 @@ python manage.py build_marts
 
 ![Payer Performance](docs/screenshots/payers.png)
 
+**Members** — utilization keyed by surrogate member key only, with cost percentile and high-cost flags (Admin role):
+
+![Member Utilization](docs/screenshots/members.png)
+
 **Data Quality Center** — quality scorecard by table, all 15 SQL-defined checks, and masked failed-record samples (Admin role):
 
 ![Data Quality Center](docs/screenshots/data-quality.png)
@@ -224,6 +228,10 @@ python manage.py build_marts
 **Compliance Dashboard** — masking/PHI status, retention policy, compliance checklist, and the full role-based access control matrix (Auditor role):
 
 ![Compliance Dashboard](docs/screenshots/compliance.png)
+
+**Audit Log** — every sensitive action across the warehouse, including denied access attempts and data quality runs (Admin role):
+
+![Audit Log](docs/screenshots/audit-log.png)
 
 ## Future Roadmap
 
