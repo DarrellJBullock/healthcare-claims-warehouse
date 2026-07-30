@@ -209,6 +209,14 @@ python manage.py build_marts
 
 ![Claims](docs/screenshots/claims.png)
 
+**Providers** — provider ranking by total paid, denial rate, and high-risk flags (Admin role):
+
+![Provider Performance](docs/screenshots/providers.png)
+
+**Payers** — payer ranking by total paid, average days-to-pay, and adjustment trends (Admin role):
+
+![Payer Performance](docs/screenshots/payers.png)
+
 **Data Quality Center** — quality scorecard by table, all 15 SQL-defined checks, and masked failed-record samples (Admin role):
 
 ![Data Quality Center](docs/screenshots/data-quality.png)
