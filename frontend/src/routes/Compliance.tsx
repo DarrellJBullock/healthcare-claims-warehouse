@@ -15,7 +15,7 @@ interface ComplianceSummaryResponse {
   retention_policy: { raw_synthetic_uploads_days: number; curated_analytics_days: number; audit_log_years: number };
   last_export: { timestamp: string; role: string; resource_id: string } | null;
   last_sensitive_view_event: { timestamp: string; role: string; action: string } | null;
-  failed_access_attempts_last_30_days: number;
+  failed_access_attempts_last_30_days: number | null;
   checklist: { item: string; status: string }[];
 }
 
@@ -48,7 +48,9 @@ export function Compliance() {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Failed access attempts (30d)</span>
-                  <span className="text-slate-200">{data.failed_access_attempts_last_30_days}</span>
+                  <span className="text-slate-200">
+                    {data.failed_access_attempts_last_30_days ?? "Not visible for this role"}
+                  </span>
                 </div>
               </div>
             </Card>

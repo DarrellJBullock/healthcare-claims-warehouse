@@ -22,5 +22,5 @@ class ComplianceSummarySerializer(serializers.Serializer):
     retention_policy = serializers.DictField()
     last_export = serializers.DictField(allow_null=True)
     last_sensitive_view_event = serializers.DictField(allow_null=True)
-    failed_access_attempts_last_30_days = serializers.IntegerField()
+    failed_access_attempts_last_30_days = serializers.IntegerField(allow_null=True)
     checklist = serializers.ListField()

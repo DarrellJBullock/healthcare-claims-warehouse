@@ -58,7 +58,9 @@ class ComplianceSummaryView(APIView):
             .order_by("-event_timestamp")
             .first()
         )
-        failed_attempts = AuditEvent.objects.filter(action="ACCESS_DENIED").count() if permissions["can_view_compliance"] else 0
+        failed_attempts = (
+            AuditEvent.objects.filter(action="ACCESS_DENIED").count() if permissions["can_view_compliance"] else None
+        )
 
         checklist = [
             {"item": "Synthetic data only, no real PHI", "status": "PASS"},
