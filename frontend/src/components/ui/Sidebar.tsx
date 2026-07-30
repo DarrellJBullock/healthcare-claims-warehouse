@@ -5,7 +5,7 @@ import { getPermissions } from "../../lib/roles";
 
 const NAV_ITEMS = [
   { to: "/", label: "Dashboard", end: true, requires: null as null | keyof ReturnType<typeof getPermissions> },
-  { to: "/claims", label: "Claims", requires: null },
+  { to: "/claims", label: "Claims", requires: "canViewRowLevelClaims" as const },
   { to: "/providers", label: "Providers", requires: null },
   { to: "/payers", label: "Payers", requires: null },
   { to: "/members", label: "Members", requires: null },

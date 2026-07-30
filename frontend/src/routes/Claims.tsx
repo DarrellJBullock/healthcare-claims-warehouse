@@ -7,7 +7,9 @@ import { ErrorState } from "../components/ui/EmptyState";
 import { FilterBar, FilterField, filterInputClass } from "../components/ui/FilterBar";
 import { SkeletonTable } from "../components/ui/Skeleton";
 import { useAnalytics } from "../hooks/useAnalytics";
+import { useRole } from "../hooks/useRole";
 import { api } from "../lib/api";
+import { getPermissions } from "../lib/roles";
 
 interface ClaimsResponse {
   count: number;
@@ -19,17 +21,25 @@ interface ClaimsResponse {
 const STATUS_OPTIONS = ["Paid", "Denied", "Pending", "Partially Paid"];
 
 export function Claims() {
+  const { role } = useRole();
+  const permissions = getPermissions(role);
   const [filters, setFilters] = useState({ date_from: "", date_to: "", status: "" });
   const [page, setPage] = useState(1);
   const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null);
 
-  const { data, loading, error, refetch } = useAnalytics<ClaimsResponse>((role) => {
+  const { data, loading, error, refetch } = useAnalytics<ClaimsResponse>((r) => {
     const params: Record<string, string> = { page: String(page), page_size: "25" };
     if (filters.date_from) params.date_from = filters.date_from;
     if (filters.date_to) params.date_to = filters.date_to;
     if (filters.status) params.status = filters.status;
-    return api.claims(role, params) as Promise<ClaimsResponse>;
+    return api.claims(r, params) as Promise<ClaimsResponse>;
   }, [page]);
+
+  if (!permissions.canViewRowLevelClaims) {
+    return (
+      <ErrorState message="This role does not have access to row-level claims. Switch to Admin, Data Engineer, or Claims Analyst." />
+    );
+  }
 
   const totalPages = data ? Math.max(Math.ceil(data.count / data.page_size), 1) : 1;
 

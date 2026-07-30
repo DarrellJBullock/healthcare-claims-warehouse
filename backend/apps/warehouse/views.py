@@ -102,6 +102,13 @@ class ClaimListView(APIView):
         role = roles.role_from_request(request)
         permissions = roles.get_permissions(role)
 
+        if not permissions["can_view_row_level_claims"]:
+            audit_service.log_access_denied(
+                user_role=role, resource_type="claim_list",
+                reason="Role not permitted to view row-level claims",
+            )
+            return Response({"detail": "Not permitted for this role."}, status=403)
+
         where_clauses = []
         params = []
         for query_param, sql_clause in CLAIM_FILTER_COLUMNS.items():
