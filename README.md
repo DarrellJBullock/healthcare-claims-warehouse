@@ -201,7 +201,21 @@ python manage.py build_marts
 
 ## Screenshots
 
-_Add screenshots of the Dashboard, Claims, Data Quality, and Compliance pages here._
+**Dashboard** — claims operations overview, monthly billed vs. paid trend, recent audit events, compliance snapshot (Admin role):
+
+![Dashboard](docs/screenshots/dashboard.png)
+
+**Claims** — row-level claims with masked identifiers by default (Claims Analyst role):
+
+![Claims](docs/screenshots/claims.png)
+
+**Data Quality Center** — quality scorecard by table, all 15 SQL-defined checks, and masked failed-record samples (Admin role):
+
+![Data Quality Center](docs/screenshots/data-quality.png)
+
+**Compliance Dashboard** — masking/PHI status, retention policy, compliance checklist, and the full role-based access control matrix (Auditor role):
+
+![Compliance Dashboard](docs/screenshots/compliance.png)
 
 ## Future Roadmap
 
