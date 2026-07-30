@@ -13,7 +13,7 @@ export function FailedRecordsPreview({ rows }: { rows: DataQualityResultRow[] })
       ) : (
         <ul className="flex flex-col divide-y divide-surface-700/50">
           {failing.map((row) => (
-            <li key={row.check_name} className="flex items-center justify-between gap-3 py-2.5 text-xs">
+            <li key={`${row.check_name}-${row.created_at}`} className="flex items-center justify-between gap-3 py-2.5 text-xs">
               <div className="flex flex-col">
                 <span className="font-medium text-slate-200">{row.check_name}</span>
                 <span className="text-slate-500">{row.message}</span>
