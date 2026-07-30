@@ -28,7 +28,7 @@ class MemberUtilizationView(APIView):
         role = roles.role_from_request(request)
         permissions = roles.get_permissions(role)
 
-        if permissions["can_view_aggregate_only"]:
+        if not permissions["can_view_member_detail"]:
             rows = fetch_all(
                 """
                 SELECT

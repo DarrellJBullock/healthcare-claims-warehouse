@@ -37,7 +37,7 @@ export function Members() {
       {error && <ErrorState message={error} onRetry={refetch} />}
 
       {!loading && !error && data && data.aggregate_only && (
-        <Card title="Utilization by Plan Type (Aggregate Only — Manager / Read Only View)">
+        <Card title="Utilization by Plan Type (Aggregate Only — no per-member detail for this role)">
           <Table
             keyField={(row: AggregateRow) => row.plan_type}
             columns={[
