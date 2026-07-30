@@ -233,6 +233,14 @@ python manage.py build_marts
 
 ![Audit Log](docs/screenshots/audit-log.png)
 
+**Exports** — role-gated export types with a required reason and audit trail (Admin role):
+
+![Exports](docs/screenshots/exports.png)
+
+**About** — project purpose, architecture, data model summary, and roadmap:
+
+![About](docs/screenshots/about.png)
+
 ## Future Roadmap
 
 - Real authentication layered on top of the existing role model
