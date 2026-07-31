@@ -16,6 +16,7 @@ class DashboardSummarySerializer(serializers.Serializer):
 
 
 class ClaimListItemSerializer(serializers.Serializer):
+    analytics_claim_key = serializers.IntegerField()
     claim_id = serializers.CharField()
     claim_status = serializers.CharField()
     claim_type = serializers.CharField()

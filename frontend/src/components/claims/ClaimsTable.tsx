@@ -4,6 +4,7 @@ import { formatCurrency, formatDate } from "../../lib/formatters";
 import { ClaimStatusBadge } from "./ClaimStatusBadge";
 
 export interface ClaimListItem {
+  analytics_claim_key: number;
   claim_id: string;
   claim_status: string;
   claim_type: string;
@@ -16,15 +17,21 @@ export interface ClaimListItem {
   denial_reason: string | null;
 }
 
-export function ClaimsTable({ claims, onSelect }: { claims: ClaimListItem[]; onSelect: (claimId: string) => void }) {
+export function ClaimsTable({
+  claims,
+  onSelect,
+}: {
+  claims: ClaimListItem[];
+  onSelect: (analyticsClaimKey: number) => void;
+}) {
   return (
     <Table
-      keyField={(row) => row.claim_id}
+      keyField={(row) => row.analytics_claim_key}
       columns={[
         {
           header: "Claim ID",
           render: (row) => (
-            <button onClick={() => onSelect(row.claim_id)} className="focus-ring rounded hover:underline">
+            <button onClick={() => onSelect(row.analytics_claim_key)} className="focus-ring rounded hover:underline">
               <MaskedIdentifier value={row.claim_id} />
             </button>
           ),

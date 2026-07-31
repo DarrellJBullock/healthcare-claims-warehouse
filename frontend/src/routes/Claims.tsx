@@ -25,7 +25,7 @@ export function Claims() {
   const permissions = getPermissions(role);
   const [filters, setFilters] = useState({ date_from: "", date_to: "", status: "" });
   const [page, setPage] = useState(1);
-  const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null);
+  const [selectedClaimKey, setSelectedClaimKey] = useState<number | null>(null);
 
   const { data, loading, error, refetch } = useAnalytics<ClaimsResponse>((r) => {
     const params: Record<string, string> = { page: String(page), page_size: "25" };
@@ -95,7 +95,7 @@ export function Claims() {
       {error && <ErrorState message={error} onRetry={refetch} />}
       {!loading && !error && data && (
         <>
-          <ClaimsTable claims={data.results} onSelect={setSelectedClaimId} />
+          <ClaimsTable claims={data.results} onSelect={setSelectedClaimKey} />
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>
               Page {data.page} of {totalPages} — {data.count.toLocaleString()} claims
@@ -112,7 +112,9 @@ export function Claims() {
         </>
       )}
 
-      {selectedClaimId && <ClaimDetailDrawer claimId={selectedClaimId} onClose={() => setSelectedClaimId(null)} />}
+      {selectedClaimKey && (
+        <ClaimDetailDrawer analyticsClaimKey={selectedClaimKey} onClose={() => setSelectedClaimKey(null)} />
+      )}
     </div>
   );
 }

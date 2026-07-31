@@ -48,7 +48,7 @@ export const api = {
     const query = new URLSearchParams(params).toString();
     return request(`/claims/${query ? `?${query}` : ""}`, role);
   },
-  claimDetail: (role: Role, claimId: string) => request(`/claims/${encodeURIComponent(claimId)}/`, role),
+  claimDetail: (role: Role, analyticsClaimKey: number) => request(`/claims/${analyticsClaimKey}/`, role),
   providerPerformance: (role: Role) => request(`/providers/performance/`, role),
   payerPerformance: (role: Role) => request(`/payers/performance/`, role),
   memberUtilization: (role: Role) => request(`/members/utilization/`, role),

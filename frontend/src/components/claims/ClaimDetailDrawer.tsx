@@ -32,7 +32,13 @@ interface ClaimDetail {
   }[];
 }
 
-export function ClaimDetailDrawer({ claimId, onClose }: { claimId: string; onClose: () => void }) {
+export function ClaimDetailDrawer({
+  analyticsClaimKey,
+  onClose,
+}: {
+  analyticsClaimKey: number;
+  onClose: () => void;
+}) {
   const { role } = useRole();
   const [claim, setClaim] = useState<ClaimDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,10 +47,10 @@ export function ClaimDetailDrawer({ claimId, onClose }: { claimId: string; onClo
     setClaim(null);
     setError(null);
     api
-      .claimDetail(role, claimId)
+      .claimDetail(role, analyticsClaimKey)
       .then((data) => setClaim(data as ClaimDetail))
       .catch((err) => setError(err instanceof Error ? err.message : "Failed to load claim."));
-  }, [claimId, role]);
+  }, [analyticsClaimKey, role]);
 
   return (
     <div className="fixed inset-0 z-40 flex justify-end">

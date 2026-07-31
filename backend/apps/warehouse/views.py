@@ -137,7 +137,7 @@ class ClaimListView(APIView):
         rows = fetch_all(
             f"""
             SELECT
-                fc.claim_id, fc.claim_status, fc.claim_type,
+                fc.analytics_claim_key, fc.claim_id, fc.claim_status, fc.claim_type,
                 fc.service_date_start, fc.service_date_end,
                 fc.billed_amount, fc.paid_amount,
                 dp.provider_name, dpay.payer_name, dr.denial_reason
@@ -168,13 +168,13 @@ class ClaimListView(APIView):
 
 
 class ClaimDetailView(APIView):
-    def get(self, request, claim_id):
+    def get(self, request, analytics_claim_key):
         role = roles.role_from_request(request)
         permissions = roles.get_permissions(role)
 
         if not permissions["can_view_row_level_claims"]:
             audit_service.log_access_denied(
-                user_role=role, resource_type="claim", resource_id=claim_id,
+                user_role=role, resource_type="claim", resource_id=str(analytics_claim_key),
                 reason="Role not permitted to view row-level claim detail",
             )
             return Response({"detail": "Not permitted for this role."}, status=403)
@@ -182,7 +182,7 @@ class ClaimDetailView(APIView):
         claim = fetch_one(
             """
             SELECT
-                fc.claim_id, fc.claim_status, fc.claim_type,
+                fc.analytics_claim_key, fc.claim_id, fc.claim_status, fc.claim_type,
                 fc.service_date_start, fc.service_date_end, fc.submitted_date,
                 fc.billed_amount, fc.paid_amount,
                 dp.provider_name, dpay.payer_name, dr.denial_reason,
@@ -193,9 +193,9 @@ class ClaimDetailView(APIView):
             JOIN warehouse.dim_member dm ON dm.analytics_member_key = fc.analytics_member_key
             LEFT JOIN warehouse.dim_denial_reason dr ON dr.denial_code = fc.denial_code
             LEFT JOIN warehouse.dim_diagnosis_category ddx ON ddx.diagnosis_category_code = fc.diagnosis_category_code
-            WHERE fc.claim_id = %s
+            WHERE fc.analytics_claim_key = %s
             """,
-            [claim_id],
+            [analytics_claim_key],
         )
         if not claim:
             return Response({"detail": "Claim not found."}, status=404)
@@ -205,13 +205,17 @@ class ClaimDetailView(APIView):
             SELECT sl.line_number, pc.procedure_category_name, sl.units,
                    sl.billed_amount, sl.allowed_amount, sl.paid_amount
             FROM warehouse.fact_claim_service_line sl
-            JOIN warehouse.fact_claim fc ON fc.analytics_claim_key = sl.analytics_claim_key
             LEFT JOIN warehouse.dim_procedure_category pc ON pc.procedure_category_code = sl.procedure_category_code
-            WHERE fc.claim_id = %s
+            WHERE sl.analytics_claim_key = %s
             ORDER BY sl.line_number
             """,
-            [claim_id],
+            [analytics_claim_key],
         )
+
+        # Audit trail keeps the real business claim_id (never masked) so
+        # compliance/security staff can trace the action, even though the
+        # end-user's own view of this same field may be masked below.
+        real_claim_id = claim["claim_id"]
 
         mask = permissions["mask_identifiers"]
         if mask:
@@ -220,7 +224,7 @@ class ClaimDetailView(APIView):
 
         audit_service.log_event(
             user_role=role, action="CLAIM_DETAIL_VIEWED",
-            resource_type="claim", resource_id=claim_id,
+            resource_type="claim", resource_id=real_claim_id,
         )
 
         serializer = ClaimDetailSerializer(claim)
