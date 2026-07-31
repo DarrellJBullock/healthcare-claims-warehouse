@@ -53,7 +53,7 @@ The raw layer is the only layer Django's ORM writes to directly (via `manage.py 
 - `backend/apps/compliance/` — `AuditEvent` and `DataQualityResult` models, compliance summary + audit log APIs
 - `backend/apps/analytics/` — provider/payer/member performance APIs, about-project API
 - `backend/sql/` — every schema, table, view, mart, index, and quality check as plain `.sql` files
-- `backend/tests/` — masking, roles, data quality, and export control tests
+- `backend/tests/` — masking, roles, data quality, and export control unit tests, plus `test_api_role_permissions.py`: end-to-end tests hitting the real API (built through the actual `build_marts` pipeline) that enforce the full 6-role × route access-control matrix
 
 ## React Frontend Overview
 
